@@ -1,0 +1,23 @@
+[
+  {
+    "id": 0,
+    "content": "Ok, I know what to do",
+    "user_id": 4,
+    "weibo_id": 2,
+    "username": "Tony_Stark"
+  },
+  {
+    "id": 1,
+    "content": "I am groot",
+    "user_id": 2,
+    "weibo_id": 2,
+    "username": "Groot"
+  },
+  {
+    "id": 2,
+    "content": "I am Groot",
+    "user_id": 2,
+    "weibo_id": 2,
+    "username": "Groot"
+  }
+]

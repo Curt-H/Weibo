@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>吃瓜主页</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index.css") }}">
+</head>
+
+<body>
+    <nav>
+        <a class="nav-link" href="/user/login/view">Login</a>
+        <a class="nav-link" href="/user/register/view">Register</a>
+    </nav>
+    <h1>Hello {{username}}</h1>
+    <img src="static/doge.gif" />
+    <img src="static/doge1.jpg" />
+    <img src="static/doge2.gif" />
+    <div class="func-entries">
+        <a class="func-entry" href="/todo/index">Todo</a>
+        <a class="func-entry" href="/weibo/index">Weibo</a>
+    </div>
+</body>
+
+</html>

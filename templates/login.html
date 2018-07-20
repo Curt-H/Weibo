@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册登录页面</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index.css ") }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/form.css ") }}">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/tables-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/forms-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/buttons-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/menus-core.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/menus-horizontal.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/grids-core.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/grids-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/base.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pure/1.0.0/pure.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="pure-menu pure-menu-horizontal">
+        <a href="#" class="pure-menu-heading pure-menu-link">BRAND</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item">
+                <a class="pure-menu-link" href="/">Homepage</a>
+            </li>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link" href="/user/register/view">Register</a>
+            </li>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link" href="/user/login/view">Login</a>
+            </li>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link" href="/todo/index">Todo</a>
+            </li>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link" href="/weibo/index">Weibo</a>
+            </li>
+        </ul>
+    </div>
+
+    <h1>登录</h1>
+    <h2>你好, {{username}}</h2>
+    <form class="pure-form pure-form-stacked" action="/user/login" method="post">
+        <input type="text" name="username" placeholder="请输入用户名">
+        <input type="text" name="password" placeholder="请输入密码">
+        <button class="pure-button" type="submit">登录</button>
+    </form>
+    <h3>{{result}}</h3>
+</body>
+
+</html>
