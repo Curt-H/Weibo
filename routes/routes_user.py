@@ -1,5 +1,5 @@
 from models.session import Session
-from routes import random_string, current_user
+from routes import current_user
 from utils import log
 from models.user import User
 from flask import (
@@ -9,6 +9,7 @@ from flask import (
     url_for,
     request,
     make_response)
+import uuid
 
 user_route = Blueprint('user_route', __name__)
 
@@ -24,7 +25,9 @@ def login():
     session_id = None
     u, result = User.login(form)
     if not u.is_guest():
-        session_id = random_string()
+        # session ID的生成使用uuid的伪随机字符串生成器
+        session_id = str(uuid.uuid4())
+
         form = dict(
             session_id=session_id,
             user_id=u.id,
