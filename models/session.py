@@ -17,6 +17,10 @@ class Session(SQLModel):
         self.expired_time = form.get('expired_time', time.time() + 3600)
 
     def expired(self):
+        """
+        确定当前session是否已经失效(超时)
+        :return:
+        """
         now = time.time()
         result = self.expired_time < now
         log('expired', result, self.expired_time, now)
