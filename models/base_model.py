@@ -1,14 +1,15 @@
 import pymysql
 
-from models.secret import db_name, mysql_password
+from secret import db_name, db_pass
 from utils import log
 
 
 class SQLModel(object):
+    # 链接数据库
     connection = pymysql.connect(
         host='localhost',
         user='root',
-        password=mysql_password,
+        password=db_pass,
         db=db_name,
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor
@@ -19,11 +20,18 @@ class SQLModel(object):
 
     @classmethod
     def table_name(cls):
+        """
+        :return: 将类的名字作为数据库的表格名
+        """
         return '`{}`'.format(cls.__name__)
 
     @classmethod
     def new(cls, form):
-        # cls(form) 相当于 User(form)
+        """
+        用于新建一个model类
+        :param form: form是包含所需元素的字典
+        :return: 返回创建的一个对象
+        """
         m = cls(form)
         cls_id = cls.insert(m.__dict__)
         m.id = cls_id
@@ -31,12 +39,16 @@ class SQLModel(object):
 
     @classmethod
     def insert(cls, form):
+        """
+        插入数据的方法
+        :param form: form是包含数据表的每个单元的数据的字典
+        :return: 返回由数据库的对象的id
+        """
+        # 把id删掉
+        log(form)
         form.pop('id')
-        # INSERT INTO `User` (
-        #   `username`, `password`, `email`
-        # ) VALUES (
-        #   'xx', 'xxx', 'xxx'
-        # )
+
+        # 将字典的键值分开, 并预先拼好语句
         sql_keys = ', '.join(['`{}`'.format(k) for k in form.keys()])
         sql_values = ', '.join(['%s'] * len(form))
         sql_insert = 'INSERT INTO \n\t{} ({}) \nVALUES \n\t({})'.format(
@@ -44,21 +56,27 @@ class SQLModel(object):
             sql_keys,
             sql_values,
         )
-        print(sql_insert)
-
+        log(sql_insert)
         values = tuple(form.values())
 
+        # 启动cursor, 开始发起
         with cls.connection.cursor() as cursor:
             cursor.execute(sql_insert, values)
+            # 获取最后一行的id作为新数据的id
             _id = cursor.lastrowid
+        # 提交变更
         cls.connection.commit()
 
         return _id
 
     @classmethod
     def delete(cls, id):
+        """
+        删除id对应的数据行
+        :param id: 数据id
+        """
         sql_delete = 'DELETE FROM {} WHERE `id`=%s'.format(cls.table_name())
-        print(sql_delete)
+        log(sql_delete)
 
         with cls.connection.cursor() as cursor:
             cursor.execute(sql_delete, (id,))
@@ -66,6 +84,12 @@ class SQLModel(object):
 
     @classmethod
     def update(cls, id, **kwargs):
+        """
+        更新数据
+        :param id: 对象的id
+        :param kwargs: 需要被更新的键值对
+        :return: 返回更新后的对象
+        """
         # UPDATE
         # 	`User`
         # SET
@@ -93,10 +117,13 @@ class SQLModel(object):
 
     @classmethod
     def all(cls):
+        """
+        获取所有的数据
+        :return: 包含所有model的list
+        """
         # SELECT * FROM User
         sql_select = 'SELECT * FROM \n\t{}'.format(cls.table_name())
-
-        print(sql_select)
+        log(sql_select)
 
         ms = []
         with cls.connection.cursor() as cursor:
@@ -109,6 +136,11 @@ class SQLModel(object):
 
     @classmethod
     def one(cls, **kwargs):
+        """
+        查找符合特定条件的第一个对象
+        :param kwargs: 条件
+        :return: 被查到的对象
+        """
         sql_select = 'SELECT * FROM \n' \
                      '\t{} \n' \
                      'WHERE \n' \
@@ -136,96 +168,17 @@ class SQLModel(object):
 
     @classmethod
     def all_json(cls):
+        """
+        用于将所有对象转换成JSON格式
+        :return:　JSON格式的对象
+        """
         items = cls.all()
         # 要转换为 dict 格式才行
         js = [t.json() for t in items]
         return js
 
     def __repr__(self):
-        """
-        __repr__ 是一个魔法方法
-        简单来说, 它的作用是得到类的 字符串表达 形式
-        比如 print(u) 实际上是 print(u.__repr__())
-        不明白就看书或者 搜
-        """
         name = self.__class__.__name__
         properties = ['{}: ({})'.format(k, v) for k, v in self.__dict__.items()]
         s = '\n'.join(properties)
         return '< {}\n{} >\n'.format(name, s)
-
-# class SimpleUser(SQLModel):
-#     sql_create = '''
-#     CREATE TABLE `simpleuser` (
-#         `id` INT NOT NULL AUTO_INCREMENT,
-#         `username` VARCHAR(45) NOT NULL,
-#         `password` CHAR(3) NOT NULL,
-#         `email` VARCHAR(45) NOT NULL,
-#         PRIMARY KEY (`id`)
-#     )'''
-#
-#     def __init__(self, form):
-#         super().__init__(form)
-#         self.username = form['username']
-#         self.password = form['password']
-#         self.email = form['email']
-#
-#
-# def recreate_database():
-#     connection = pymysql.connect(
-#         host='localhost',
-#         user='root',
-#         password=secret.mysql_password,
-#         charset='utf8mb4',
-#         cursorclass=pymysql.cursors.DictCursor
-#     )
-#
-#     with connection.cursor() as cursor:
-#         cursor.execute(
-#             'DROP DATABASE IF EXISTS `{}`'.format(
-#                 db_name
-#             )
-#         )
-#         cursor.execute(
-#             'CREATE DATABASE `{}` DEFAULT CHARACTER SET utf8mb4'.format(
-#                 db_name
-#             )
-#         )
-#         cursor.execute('USE `{}`'.format(db_name))
-#         cursor.execute(SimpleUser.sql_create)
-#
-#     connection.commit()
-#     connection.close()
-#
-#
-# def test():
-#     f = dict(
-#         username='456',
-#         password='789',
-#         email='test',
-#     )
-#     u = SimpleUser.new(f)
-#     print('User.new <{}>'.format(u))
-#     assert u.username == '456'
-#
-#     us = SimpleUser.all()
-#     print('User.all <{}>'.format(us))
-#     assert len(us) >= 0
-#
-#     u = SimpleUser.one_for_username_and_password(username='456', password='789')
-#     print('User.one <{}>'.format(u))
-#     assert u.username == '456'
-#
-#     SimpleUser.update(u.id, username='456', email='789')
-#     u = SimpleUser.one_for_username_and_password(username='456', password='789')
-#     print('User.one <{}>'.format(u))
-#     assert u.username == '456'
-#
-#     SimpleUser.delete(u.id)
-#     u = SimpleUser.one_for_username_and_password(username='456', password='123')
-#     print('User.one <{}>'.format(u))
-#     assert u is None
-#
-#
-# if __name__ == '__main__':
-#     recreate_database()
-#     test()

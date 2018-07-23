@@ -105,3 +105,4 @@ log.gua.txt
 .idea/workspace.xml
 .idea/misc.xml
 data/Session.txt
+secret.py
