@@ -12,7 +12,6 @@ class Weibo(SQLModel):
         self.content = form.get('content', '')
         # 和别的数据关联的方式, 用 user_id 表明拥有它的 user 实例
         self.user_id = form.get('user_id', None)
-        self.username = form.get('username', None)
 
     @classmethod
     def update_database(cls, form):
@@ -22,5 +21,5 @@ class Weibo(SQLModel):
         return cls.one(id=weibo_id)
 
     def comments(self):
-        cs = Comment.all(weibo_id=self.id)
+        cs = Comment.all_by(weibo_id=self.id)
         return cs

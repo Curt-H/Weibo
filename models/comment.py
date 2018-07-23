@@ -15,4 +15,3 @@ class Comment(SQLModel):
         self.content = form.get('content', '')
         self.user_id = form.get('user_id', user_id)
         self.weibo_id = int(form.get('weibo_id', -1))
-        self.username = form.get('username', None)
