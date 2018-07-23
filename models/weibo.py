@@ -22,5 +22,5 @@ class Weibo(SQLModel):
         return cls.one(id=weibo_id)
 
     def comments(self):
-        cs = Comment.find_all(weibo_id=self.id)
+        cs = Comment.all(weibo_id=self.id)
         return cs

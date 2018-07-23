@@ -163,6 +163,36 @@ class SQLModel(object):
             else:
                 return cls(result)
 
+    @classmethod
+    def all_by(cls, **kwargs):
+        """
+        查找符合特定条件的所有对象
+        :param kwargs: 条件
+        :return: 被查到的对象list
+        """
+        sql_select = 'SELECT * FROM \n' \
+                     '\t{} \n' \
+                     'WHERE \n' \
+                     '\t{}\n' \
+                     'LIMIT 1'
+        sql_keys = ' AND '.join(['`{}`=%s'.format(k) for k in kwargs.keys()])
+        sql_select = sql_select.format(
+            cls.table_name(),
+            sql_keys
+        )
+        log('SQL Sentence:\n{}'.format(sql_select))
+
+        values = tuple(kwargs.values())
+
+        ms = list()
+        with cls.connection.cursor() as cursor:
+            cursor.execute(sql_select, values)
+            result = cursor.fetchall()
+            for r in result:
+                m = cls(r)
+                ms.append(m)
+            return ms
+
     def json(self):
         return self.__dict__
 
