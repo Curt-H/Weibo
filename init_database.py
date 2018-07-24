@@ -1,5 +1,6 @@
 import pymysql
 import models.secret as secret
+from utils import log
 
 
 def create_user():
@@ -7,7 +8,7 @@ def create_user():
           '`id` INT AUTO_INCREMENT,' \
           '`user_name` VARCHAR(32) NOT NULL,' \
           '`password` VARCHAR(64) NOT NULL,' \
-          '`role` VARCHAR(10) NOT NULL DEFAULT `guest`,' \
+          '`role` VARCHAR(10) NOT NULL DEFAULT \'guest\',' \
           'PRIMARY KEY (`id`)' \
           ');'
     return cmd
@@ -72,4 +73,6 @@ def init_database(db_name, db_pass):
 
 
 if __name__ == '__main__':
+    log('开始创建数据表')
     init_database(secret.db_name, secret.db_pass)
+    log('创建完成!')
