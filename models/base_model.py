@@ -1,6 +1,5 @@
 import pymysql
-
-from secret import db_name, db_pass
+import models.secret as secret
 from utils import log
 
 
@@ -9,8 +8,8 @@ class SQLModel(object):
     connection = pymysql.connect(
         host='localhost',
         user='root',
-        password=db_pass,
-        db=db_name,
+        password=secret.db_pass,
+        db=secret.db_name,
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor
     )
