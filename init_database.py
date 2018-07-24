@@ -6,7 +6,7 @@ from utils import log
 def create_user():
     cmd = 'CREATE TABLE IF NOT EXISTS `User`(' \
           '`id` INT AUTO_INCREMENT,' \
-          '`user_name` VARCHAR(32) NOT NULL,' \
+          '`username` VARCHAR(32) NOT NULL,' \
           '`password` VARCHAR(64) NOT NULL,' \
           '`role` VARCHAR(10) NOT NULL DEFAULT \'guest\',' \
           'PRIMARY KEY (`id`)' \
