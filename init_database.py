@@ -7,7 +7,7 @@ def create_user():
           '`id` INT AUTO_INCREMENT,' \
           '`user_name` VARCHAR(32) NOT NULL,' \
           '`password` VARCHAR(64) NOT NULL,' \
-          '`role` VARCHAR(10) NOT NULL DEFAULT `guest`' \
+          '`role` VARCHAR(10) NOT NULL DEFAULT `guest`,' \
           'PRIMARY KEY (`id`)' \
           ');'
     return cmd
