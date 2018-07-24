@@ -4,43 +4,47 @@ import models.secret as secret
 
 def create_user():
     cmd = 'CRECREATE TABLE IF NOT EXISTS `User`(' \
-          '`id` INT AUTO_INCREMENT PRIMARY KEY,' \
+          '`id` INT AUTO_INCREMENT,' \
           '`user_name` CHAR(32) NOT NULL,' \
           '`password` CHAR(64) NOT NULL,' \
           '`role` CHAR(10) NOT NULL DEFAULT `guest`' \
+          'PRIMARY KEY (`id`)' \
           ');'
     return cmd
 
 
 def creat_session():
     cmd = 'CRECREATE TABLE IF NOT EXISTS `Session`(' \
-          '`id` INT AUTO_INCREMENT PRIMARY KEY,' \
+          '`id` INT AUTO_INCREMENT,' \
           '`session_id` CHAR(36) NOT NULL,' \
           '`user_id` INT NOT NULL,' \
           '`expired_time` INT NOT NULL,' \
+          'PRIMARY KEY (`id`)' \
           ');'
     return cmd
 
 
 def creat_weibo():
     cmd = 'CRECREATE TABLE IF NOT EXISTS `Weibo`(' \
-          '`id` INT AUTO_INCREMENT PRIMARY KEY,' \
+          '`id` INT AUTO_INCREMENT,' \
           '`content` TEXT NOT NULL,' \
           '`user_id` INT NOT NULL,' \
           '`update_time` INT NOT NULL,' \
           '`create_time` INT NOT NULL,' \
+          'PRIMARY KEY (`id`)' \
           ');'
     return cmd
 
 
 def creat_comment():
     cmd = 'CRECREATE TABLE IF NOT EXISTS `Comment`(' \
-          '`id` INT AUTO_INCREMENT PRIMARY KEY,' \
+          '`id` INT AUTO_INCREMENT,' \
           '`content` TEXT NOT NULL,' \
           '`user_id` INT NOT NULL,' \
           '`weibo_id` INT NOT NULL,' \
           '`update_time` INT NOT NULL,' \
           '`create_time` INT NOT NULL,' \
+          'PRIMARY KEY (`id`)' \
           ');'
     return cmd
 
