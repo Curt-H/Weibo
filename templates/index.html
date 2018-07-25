@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}微博主页{% endblock title %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>吃瓜主页</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index.css") }}">
-</head>
+{% block css %}
 
-<body>
-    <nav>
-        <a class="nav-link" href="/user/login/view">Login</a>
-        <a class="nav-link" href="/user/register/view">Register</a>
-    </nav>
-    <h1>Hello {{username}}</h1>
-    <img src="static/doge.gif" />
-    <img src="static/doge1.jpg" />
-    <img src="static/doge2.gif" />
-    <div class="func-entries">
-        <a class="func-entry" href="/todo/index">Todo</a>
-        <a class="func-entry" href="/weibo/index">Weibo</a>
+{% endblock css %}
+
+{% block content %}
+    <h1 class="greeting-title">你好,{{ username }}</h1>
+    <div>
+        <a class="link-style pure-button pure-u-1-1" href="/weibo/index">Weibo</a>
     </div>
-</body>
-
-</html>
+{% endblock content %}

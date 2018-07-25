@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/self.css">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/menus-core.css">
+    <link rel="stylesheet" href="/static/css/menus-horizontal.css">
+    <link rel="stylesheet" href="/static/css/buttons-core.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
+    <link rel="stylesheet" href="/static/css/grids-core.css">
+    <link rel="stylesheet" href="/static/css/grids.css">
+    {% block css %}{% endblock %}
+</head>
+<body>
+<div class="navbar pure-menu pure-menu-horizontal">
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a class="pure-menu-link link-style pure-button" href="/weibo/view">微博</a></li>
+        <li class="pure-menu-item"><a class="link-style pure-menu-link pure-button" href="/user/login/view">登陆</a></li>
+        <li class="pure-menu-item"><a class="link-style pure-menu-link pure-button" href="/user/register/view">注册</a></li>
+    </ul>
+</div>
+{% block content %}{% endblock %}
+{% block script %}{% endblock %}
+</body>
+</html>
