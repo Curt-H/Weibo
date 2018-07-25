@@ -18,4 +18,4 @@ def index():
     u = current_user()
     weibos = Weibo.one(user_id=u.id)
     # 替换模板文件中的标记字符串
-    return render_template('weibo_index.html', weibos=weibos, user=u)
+    return render_template('index.html', weibos=weibos, user=u)
