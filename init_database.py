@@ -3,6 +3,11 @@ import models.secret as secret
 from utils import log
 
 
+def add_guest():
+    cmd = 'INSERT INTO User VALUES (-1, \'【游客】\',\'NULL\',\'guest\')'
+    return cmd
+
+
 def create_user():
     cmd = 'CREATE TABLE IF NOT EXISTS `User`(' \
           '`id` INT AUTO_INCREMENT,' \
@@ -66,11 +71,13 @@ def init_database(db_name, db_pass):
     session = creat_session()
     weibo = creat_weibo()
     comment = creat_comment()
+    guest = add_guest()
     with connection.cursor() as cursor:
         cursor.execute(user)
         cursor.execute(session)
         cursor.execute(weibo)
         cursor.execute(comment)
+        cursor.execute(guest)
     connection.commit()
 
 
