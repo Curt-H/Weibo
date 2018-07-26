@@ -32,6 +32,6 @@ class Weibo(SQLModel):
         return cs
 
     def get_writer(self):
-        log(f'用户的id: {self.user_id}<{type(self.user_id)}>')
+        log(f'用户的id: {self.user_id}|<{type(self.user_id)}>')
         username = User.one(id=self.user_id).username
         return username

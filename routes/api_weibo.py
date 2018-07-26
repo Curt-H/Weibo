@@ -89,7 +89,7 @@ def comment_delete():
 
 
 @api_weibo.route('/api/weibo/update', methods=['POST'])
-def update():
+def weibo_update():
     """
     用于增加新 weibo 的路由函数
     """
@@ -98,6 +98,7 @@ def update():
         return valid
 
     form = request.get_json()
+    form['update_time'] = int(time.time())
     log('api weibo update form', form)
     t = Weibo.update_database(form)
     return jsonify(t.json())
