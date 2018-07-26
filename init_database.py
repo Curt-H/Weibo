@@ -45,7 +45,6 @@ def creat_comment():
           '`user_id` INT NOT NULL,' \
           '`weibo_id` INT NOT NULL,' \
           '`writer` VARCHAR(32) NOT NULL,' \
-          '`weibo_wirter` INT NOT NULL,' \
           '`update_time` INT NOT NULL,' \
           '`create_time` INT NOT NULL,' \
           'PRIMARY KEY (`id`)' \
