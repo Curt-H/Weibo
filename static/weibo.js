@@ -24,13 +24,13 @@ let apiCommentAdd = function (form, callback) {
 
 //删除微博的API
 let apiWeiboDelete = function (weibo_id, callback) {
-    let path = '/api/weibo/delete?id=${weibo_id}';
+    let path = `/api/weibo/delete?id=${weibo_id}`;
     ajax('GET', path, '', callback)
 };
 
 //删除评论的API
 let apiCommentDelete = function (comment_id, callback) {
-    let path = '/api/comment/delete?id=${comment_id}';
+    let path = `/api/comment/delete?id=${comment_id}`;
     ajax('GET', path, '', callback)
 };
 
@@ -198,17 +198,18 @@ let bindEventCommentAdd = function () {
 
 let bindEventWeiboDelete = function () {
     let weiboList = e('#id-weibo-list');
+    // 事件委托
     weiboList.addEventListener('click', function (event) {
-        log(event);
         let self = event.target;
-        log(self.classList);
         if (self.classList.contains('weibo-delete')) {
             log('点到了删除按钮');
-            let weiboId = self.parentElement.dataset['id'];
+            let weiboId = self.closest('.weibo-cell').dataset['id'];
+
+            //传输被删除的Weibo的I
             apiWeiboDelete(weiboId, function (r) {
                 log('apiWeiboDelete', r.message);
-                self.parentElement.remove();
-                alert(r.message)
+                self.closest('.weibo-cell').remove();
+                alert(rD.message)
             })
         }
     })

@@ -69,11 +69,21 @@ def comment_add():
 
 @api_weibo.route('/api/weibo/delete', methods=['GET'])
 def delete():
-    valid = weibo_owner_required()
-    if valid is not None:
-        return valid
+    # 获取微博的ID
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    weibo_id = request.args['id']
+    log(f'{weibo_id} -- {type(weibo_id)}')
+    # 验证数据是否是数字
+    valid = weibo_id.split()
+    for i in valid:
+        if i not in numbers:
+            log(f'获取数据错误, 获取到非数字<{weibo_id}>')
+            r = dict(
+                message='DataError'
+            )
+            return jsonify(r)
+    weibo_id = int(weibo_id)
 
-    weibo_id = int(request.args['id'])
     weibo = Weibo.one(id=weibo_id)
     for i in weibo.comments():
         Comment.delete(i.id)
