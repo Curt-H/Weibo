@@ -57,7 +57,7 @@ let weiboTemplate = function (weibo) {
                 <button class="weibo-edit link-style pure-button pure-u-1-8">编辑</button>
             </span>
             <span class="weibo-title">${weibo.content}</span>
-            <hr class="weibo-cell-end">
+            <div class="weibo-cell-end"></div>
             <input class='input-comment pure-u-3-5'>
             <button class="button-add-comment link-style pure-button pure-u-1-5">添加评论</button>
         </div>
@@ -67,15 +67,13 @@ let weiboTemplate = function (weibo) {
 
 //评论块的模板
 let commentTemplate = function (comment) {
-    // TODO DOM
     let t = `
     <div class="comment-cell" data-id="${comment.id}" data-weiboId="${comment.weibo_id}">
         <span class="comment-user"> [评论] ${comment.writer}:</span>
-        <br>
         <span class="comment-title">${comment.content}</span>
         <button class="comment-delete">删除</button>
         <button class="comment-edit">编辑</button>
-        <hr class="comment-cell-end">
+        <div class="comment-cell-end"></div>
     </div>
     `;
     return t
@@ -83,7 +81,6 @@ let commentTemplate = function (comment) {
 
 //更新微薄的文本输入框
 let weiboUpdateTemplate = function (title) {
-    // TODO DOM
     let t = `
         <div class="weibo-update-form">
             <input class="weibo-update-input" value="${title}">
