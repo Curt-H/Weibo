@@ -1,3 +1,5 @@
+import time
+
 from models.comment import Comment
 from models.user import User
 from routes import current_user, weibo_owner_required, comment_owner_required
@@ -18,13 +20,6 @@ api_weibo = Blueprint('api_weibo', __name__)
 @api_weibo.route('/api/weibo/all', methods=['GET'])
 def weibo_all():
     weibos = Weibo.all_json()
-
-    for i in weibos:
-        log(i)
-        writer = User.one(id=int(i['user_id']))
-        if writer is None:
-            writer = User.guest()
-        i['writer'] = writer.json()
     log('[WEIBO]\n{}'.format(weibos))
 
     return jsonify(weibos)
@@ -45,7 +40,9 @@ def add():
     # 创建一个 weibo
     u = current_user()
     form['user_id'] = u.id
-    form['username'] = u.username
+    form['writer'] = u.username
+    form['create_time'] = time.time()
+    form['update_time'] = form['create_time']
     t = Weibo.new(form)
     # 把创建好的 weibo 返回给浏览器
     return jsonify(t.json())
