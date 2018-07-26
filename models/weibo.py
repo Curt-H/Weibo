@@ -16,6 +16,7 @@ class Weibo(SQLModel):
         self.content = form.get('content', '')
         # 和别的数据关联的方式, 用 user_id 表明拥有它的 user 实例
         self.user_id = form.get('user_id', None)
+        self.writer = self.get_writer()
         self.update_time = form.get('update_time', int(time.time()))
         self.create_time = form.get('create_time', int(time.time()))
 
@@ -30,8 +31,7 @@ class Weibo(SQLModel):
         cs = Comment.all_by(weibo_id=self.id)
         return cs
 
-    def writer(self):
-        user_id = self.user_id
-        log(f'用户的id: {user_id}<{type(user_id)}>')
-        user = User.one(id=user_id)
-        return user
+    def get_writer(self):
+        log(f'用户的id: {self.user_id}<{type(self.user_id)}>')
+        username = User.one(id=self.user_id).username
+        return username
