@@ -51,7 +51,7 @@ let weiboTemplate = function (weibo) {
 //微博的模板
     let t = `
         <div class="weibo-cell pure-form" data-id="${weibo.id}">
-            <span class="weibo-user pure-u-3-5">${weibo.username}发表了微博:</span>
+            <span class="weibo-user pure-u-3-5">${weibo.writer.username}发表了微博:</span>
             <span class="btn-small">
                 <button class="weibo-delete link-style pure-button pure-u-1-8">删除</button>
                 <button class="weibo-edit link-style pure-button pure-u-1-8">编辑</button>

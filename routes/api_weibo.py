@@ -1,4 +1,5 @@
 from models.comment import Comment
+from models.user import User
 from routes import current_user, weibo_owner_required, comment_owner_required
 from utils import log
 from models.weibo import Weibo
@@ -17,7 +18,15 @@ api_weibo = Blueprint('api_weibo', __name__)
 @api_weibo.route('/api/weibo/all', methods=['GET'])
 def weibo_all():
     weibos = Weibo.all_json()
+
+    for i in weibos:
+        log(i)
+        writer = User.one(id=int(i['user_id']))
+        if writer is None:
+            writer = User.guest()
+        i['writer'] = writer.json()
     log('[WEIBO]\n{}'.format(weibos))
+
     return jsonify(weibos)
 
 
@@ -102,7 +111,6 @@ def comment_update():
     valid = comment_owner_required()
     if valid is not None:
         return valid
-
 
     form = request.json()
     log('api comment update form', form)

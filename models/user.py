@@ -24,7 +24,7 @@ class User(SQLModel):
         """
 
         form = dict(
-            role=UserRole.guest,
+            role='guest',
             username='【游客】',
             id=-1,
             password='guest'

@@ -2,6 +2,8 @@ import time
 
 from models.base_model import SQLModel
 from models.comment import Comment
+from models.user import User
+from utils import log
 
 
 class Weibo(SQLModel):
@@ -27,3 +29,9 @@ class Weibo(SQLModel):
     def comments(self):
         cs = Comment.all_by(weibo_id=self.id)
         return cs
+
+    def writer(self):
+        user_id = self.user_id
+        log(f'用户的id: {user_id}<{type(user_id)}>')
+        user = User.one(id=user_id)
+        return user
