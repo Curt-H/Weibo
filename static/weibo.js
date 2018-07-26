@@ -51,7 +51,7 @@ let weiboTemplate = function (weibo) {
 //微博的模板
     let t = `
         <div class="weibo-cell pure-form" data-id="${weibo.id}">
-            <span class="weibo-user pure-u-3-5">${weibo.writer.username}发表了微博:</span>
+            <span class="weibo-user pure-u-3-5">${weibo.writer}发表了微博:</span>
             <span class="btn-small">
                 <button class="weibo-delete link-style pure-button pure-u-1-8">删除</button>
                 <button class="weibo-edit link-style pure-button pure-u-1-8">编辑</button>
@@ -70,7 +70,7 @@ let commentTemplate = function (comment) {
     // TODO DOM
     let t = `
     <div class="comment-cell" data-id="${comment.id}" data-weiboId="${comment.weibo_id}">
-        <span class="comment-user"> [评论] ${comment.username}:</span>
+        <span class="comment-user"> [评论] ${comment.writer}:</span>
         <br>
         <span class="comment-title">${comment.content}</span>
         <button class="comment-delete">删除</button>

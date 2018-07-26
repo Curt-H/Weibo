@@ -50,9 +50,20 @@ def add():
 
 @api_weibo.route('/api/comment/add', methods=['POST'])
 def comment_add():
+    """
+    用于向数据库添加评论数据
+    :return:
+    """
     form = request.get_json()
+
     u = current_user()
-    t = Comment.add(form, u.id, u.username)
+    form['user_id'] = u.id
+    form['writer'] = u.username
+    form['create_time'] = int(time.time())
+    form['update_time'] = form['create_time']
+
+    t = Comment.new(form)
+
     return jsonify(t.json())
 
 
