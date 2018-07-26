@@ -209,7 +209,7 @@ let bindEventWeiboDelete = function () {
             apiWeiboDelete(weiboId, function (r) {
                 log('apiWeiboDelete', r.message);
                 self.closest('.weibo-cell').remove();
-                alert(rD.message)
+                alert(r.message)
             })
         }
     })

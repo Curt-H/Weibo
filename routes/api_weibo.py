@@ -1,7 +1,6 @@
 import time
 
 from models.comment import Comment
-from models.user import User
 from routes import current_user, weibo_owner_required, comment_owner_required
 from utils import log
 from models.weibo import Weibo
@@ -25,15 +24,8 @@ def weibo_all():
     return jsonify(weibos)
 
 
-@api_weibo.route('/api/comment/all', methods=['GET'])
-def comment_all():
-    comments = Comment.all_json()
-    log('[COMMENTS]\n{}'.format(comments))
-    return jsonify(comments)
-
-
 @api_weibo.route('/api/weibo/add', methods=['POST'])
-def add():
+def weibo_add():
     # 得到浏览器发送的表单, 浏览器用 ajax 发送 json 格式的数据过来
     # 所以这里我们用新增加的 json 函数来获取格式化后的 json 数据
     form = request.get_json()
@@ -48,27 +40,8 @@ def add():
     return jsonify(t.json())
 
 
-@api_weibo.route('/api/comment/add', methods=['POST'])
-def comment_add():
-    """
-    用于向数据库添加评论数据
-    :return:
-    """
-    form = request.get_json()
-
-    u = current_user()
-    form['user_id'] = u.id
-    form['writer'] = u.username
-    form['create_time'] = int(time.time())
-    form['update_time'] = form['create_time']
-
-    t = Comment.new(form)
-
-    return jsonify(t.json())
-
-
 @api_weibo.route('/api/weibo/delete', methods=['GET'])
-def delete():
+def weibo_delete():
     # 获取微博的ID
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     weibo_id = request.args['id']
@@ -95,20 +68,6 @@ def delete():
     return jsonify(d)
 
 
-@api_weibo.route('/api/comment/delete', methods=['GET'])
-def comment_delete():
-    valid = comment_owner_required()
-    if valid is not None:
-        return valid
-
-    comment_id = int(request.args['id'])
-    Comment.delete(comment_id)
-    d = dict(
-        message="成功删除 Comment"
-    )
-    return jsonify(d)
-
-
 @api_weibo.route('/api/weibo/update', methods=['POST'])
 def weibo_update():
     """
@@ -123,6 +82,46 @@ def weibo_update():
     log('api weibo update form', form)
     t = Weibo.update_database(form)
     return jsonify(t.json())
+
+
+@api_weibo.route('/api/comment/all', methods=['GET'])
+def comment_all():
+    comments = Comment.all_json()
+    log('[COMMENTS]\n{}'.format(comments))
+    return jsonify(comments)
+
+
+@api_weibo.route('/api/comment/add', methods=['POST'])
+def comment_add():
+    """
+    用于向数据库添加评论数据
+    :return:
+    """
+    form = request.get_json()
+
+    u = current_user()
+    form['user_id'] = u.id
+    form['writer'] = u.username
+    form['create_time'] = int(time.time())
+    form['update_time'] = form['create_time']
+
+    t = Comment.new(form)
+
+    return jsonify(t.json())
+
+
+@api_weibo.route('/api/comment/delete', methods=['GET'])
+def comment_delete():
+    valid = comment_owner_required()
+    if valid is not None:
+        return valid
+
+    comment_id = int(request.args['id'])
+    Comment.delete(comment_id)
+    d = dict(
+        message="成功删除 Comment"
+    )
+    return jsonify(d)
 
 
 @api_weibo.route('/api/comment/update', methods=['POST'])
