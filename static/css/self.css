@@ -15,14 +15,12 @@ h1 {
 .navbar {
     text-align: right;
     background: #888;
-    padding: 10px;
 }
 
 button.link-style {
     border-radius: 8px;
     background: black;
     color: white;
-    margin: 8px;
 }
 
 button.link-style:hover {
@@ -30,27 +28,26 @@ button.link-style:hover {
 }
 
 #id-input-weibo {
-    margin: 8px;
 }
 
 .input-comment {
-    margin: 8px;
 }
 
 .weibo-user {
     display: inline-block;
     text-align: left;
     font-weight: 800;
-    margin: 5px;
 }
 
 .weibo-title {
     display: block;
-    padding: 0.5em 2em;
     border: 1px solid #444444;
 }
 
 .weibo-cell {
     border: 2px solid #222222;
-    padding: 1.25%;
+}
+
+.btn-small {
+    font-size: 50%;
 }

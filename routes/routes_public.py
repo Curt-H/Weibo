@@ -12,4 +12,4 @@ def index():
     """
     u = current_user()
 
-    return render_template('index.html', username=u.username)
+    return render_template('index.html', u=u)

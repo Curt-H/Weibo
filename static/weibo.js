@@ -1,54 +1,62 @@
-﻿//API to Back End
-const apiWeiboAll = function (callback) {
-    const path = '/api/weibo/all';
+﻿//显示所有weibo的API
+let apiWeiboAll = function (callback) {
+    let path = '/api/weibo/all';
     ajax('GET', path, '', callback)
 };
 
-const apiCommentAll = function (callback) {
-    const path = '/api/comment/all';
+//显示所有评论的API
+let apiCommentAll = function (callback) {
+    let path = '/api/comment/all';
     ajax('GET', path, '', callback)
 };
 
-const apiWeiboAdd = function (form, callback) {
+//发表微博的API
+let apiWeiboAdd = function (form, callback) {
     let path = '/api/weibo/add';
     ajax('POST', path, form, callback)
 };
 
-const apiCommentAdd = function (form, callback) {
-    const path = '/api/comment/add';
+//发表评论的API
+let apiCommentAdd = function (form, callback) {
+    let path = '/api/comment/add';
     ajax('POST', path, form, callback)
 };
 
-const apiWeiboDelete = function (weibo_id, callback) {
-    const path = `/api/weibo/delete?id=${weibo_id}`;
+//删除微博的API
+let apiWeiboDelete = function (weibo_id, callback) {
+    let path = '/api/weibo/delete?id=${weibo_id}';
     ajax('GET', path, '', callback)
 };
 
-const apiCommentDelete = function (comment_id, callback) {
-    const path = `/api/comment/delete?id=${comment_id}`;
+//删除评论的API
+let apiCommentDelete = function (comment_id, callback) {
+    let path = '/api/comment/delete?id=${comment_id}';
     ajax('GET', path, '', callback)
 };
 
-const apiWeiboUpdate = function (form, callback) {
-    const path = '/api/weibo/update';
+//更新微博的API
+let apiWeiboUpdate = function (form, callback) {
+    let path = '/api/weibo/update';
     ajax('POST', path, form, callback)
 };
 
-const apiCommentUpdate = function (form, callback) {
-    const path = '/api/comment/update';
+//更新评论的API
+let apiCommentUpdate = function (form, callback) {
+    let path = '/api/comment/update';
     ajax('POST', path, form, callback)
 };
 
-
-//All Template Used
-const weiboTemplate = function (weibo) {
-    // Weibo DOM
-    const t = `
+//以下是各种模板
+let weiboTemplate = function (weibo) {
+//微博的模板
+    let t = `
         <div class="weibo-cell pure-form" data-id="${weibo.id}">
-            <span class="weibo-user">${weibo.username}发表了微博:</span>
+            <span class="weibo-user pure-u-3-5">${weibo.username}发表了微博:</span>
+            <span class="btn-small">
+                <button class="weibo-delete link-style pure-button pure-u-1-8">删除</button>
+                <button class="weibo-edit link-style pure-button pure-u-1-8">编辑</button>
+            </span>
             <span class="weibo-title">${weibo.content}</span>
-            <button class="weibo-delete link-style pure-button pure-u-1-5">删除</button>
-            <button class="weibo-edit link-style pure-button pure-u-1-5">编辑</button>
             <hr class="weibo-cell-end">
             <input class='input-comment pure-u-3-5'>
             <button class="button-add-comment link-style pure-button pure-u-1-5">添加评论</button>
@@ -57,24 +65,26 @@ const weiboTemplate = function (weibo) {
     return t
 };
 
-const commentTemplate = function (comment) {
+//评论块的模板
+let commentTemplate = function (comment) {
     // TODO DOM
-    const t = `
+    let t = `
     <div class="comment-cell" data-id="${comment.id}" data-weiboId="${comment.weibo_id}">
-    <span class="comment-user"> [评论] ${comment.username}:</span>
-    <br>
-    <span class="comment-title">${comment.content}</span>
-    <button class="comment-delete">删除</button>
-    <button class="comment-edit">编辑</button>
-    <hr class="comment-cell-end">
+        <span class="comment-user"> [评论] ${comment.username}:</span>
+        <br>
+        <span class="comment-title">${comment.content}</span>
+        <button class="comment-delete">删除</button>
+        <button class="comment-edit">编辑</button>
+        <hr class="comment-cell-end">
     </div>
     `;
     return t
 };
 
-const weiboUpdateTemplate = function (title) {
+//更新微薄的文本输入框
+let weiboUpdateTemplate = function (title) {
     // TODO DOM
-    const t = `
+    let t = `
         <div class="weibo-update-form">
             <input class="weibo-update-input" value="${title}">
             <button class="weibo-update">更新</button>
@@ -83,8 +93,9 @@ const weiboUpdateTemplate = function (title) {
     return t
 };
 
-const commentUpdateTemplate = function (title) {
-    const t = `
+//更新评论的输入框
+let commentUpdateTemplate = function (title) {
+    let t = `
         <div class="comment-update-form">
             <input class="comment-update-input" value="${title}">
             <button class="comment-update">更新</button>
@@ -94,16 +105,16 @@ const commentUpdateTemplate = function (title) {
 };
 
 //All Function used to Insert HTML
-const insertWeibo = function (weibo) {
-    const weiboCell = weiboTemplate(weibo);
+let insertWeibo = function (weibo) {
+    let weiboCell = weiboTemplate(weibo);
     // 插入 weibo-list
-    const weiboList = e('#id-weibo-list');
-    weiboList.insertAdjacentHTML('beforeend', weiboCell)
+    let weiboList = e('#id-weibo-list');
+    weiboList.insertAdjacentHTML('afterbegin', weiboCell)
 };
 
-const insertComment = function (comment) {
-    const commentCell = commentTemplate(comment);
-    const weiboList = document.querySelectorAll(".weibo-cell");
+let insertComment = function (comment) {
+    let commentCell = commentTemplate(comment);
+    let weiboList = document.querySelectorAll(".weibo-cell");
     for (let i = 0; i < weiboList.length; i++) {
         if (comment.weibo_id == weiboList[i].dataset["id"]) {
             log('加载评论', comment.content, '微博ID', comment.weibo_id);
@@ -113,34 +124,34 @@ const insertComment = function (comment) {
     }
 };
 
-const insertUpdateForm = function (title, weiboCell) {
-    const updateForm = weiboUpdateTemplate(title);
-    const insertPoint = e('.weibo-cell-end', weiboCell);
+let insertUpdateForm = function (title, weiboCell) {
+    let updateForm = weiboUpdateTemplate(title);
+    let insertPoint = e('.weibo-cell-end', weiboCell);
     insertPoint.insertAdjacentHTML('beforebegin', updateForm)
 };
 
-const insertUpdateCommentForm = function (title, commentCell) {
-    const updateForm = commentUpdateTemplate(title);
+let insertUpdateCommentForm = function (title, commentCell) {
+    let updateForm = commentUpdateTemplate(title);
     log(commentCell);
-    const insertPoint = e('.comment-edit', commentCell);
+    let insertPoint = e('.comment-edit', commentCell);
     insertPoint.insertAdjacentHTML('afterend', updateForm)
 };
 
-const loadComments = function () {
+let loadComments = function () {
     apiCommentAll(function (comments) {
         log('load all comments', comments);
         for (let i = 0; i < comments.length; i++) {
-            const comment = comments[i];
+            let comment = comments[i];
             insertComment(comment)
         }
     })
 };
 
-const loadWeibos = function () {
+let loadWeibos = function () {
     apiWeiboAll(function (weibos) {
         log('load all weibos', weibos);
         for (let i = 0; i < weibos.length; i++) {
-            const weibo = weibos[i];
+            let weibo = weibos[i];
             insertWeibo(weibo)
         }
         loadComments()
@@ -149,14 +160,14 @@ const loadWeibos = function () {
 
 
 // All Function used to Bind Event
-const bindEventWeiboAdd = function () {
-    const b = e('#id-button-add');
+let bindEventWeiboAdd = function () {
+    let b = e('#id-button-add');
     b.addEventListener('click', function () {
-        const input = e('#id-input-weibo');
-        const title = input.value;
+        let input = e('#id-input-weibo');
+        let title = input.value;
         input.value = "";
         log('click add', title);
-        const form = {
+        let form = {
             content: title
         };
         apiWeiboAdd(form, function (weibo) {
@@ -166,17 +177,17 @@ const bindEventWeiboAdd = function () {
     })
 };
 
-const bindEventCommentAdd = function () {
-    const b = e('#id-weibo-list');
+let bindEventCommentAdd = function () {
+    let b = e('#id-weibo-list');
     b.addEventListener('click', function (btn) {
         self = btn.target;
         if (self.classList.contains('button-add-comment')) {
-            const weiboCell = self.closest('.weibo-cell');
-            const input = e('.input-comment', weiboCell);
-            const content = input.value;
+            let weiboCell = self.closest('.weibo-cell');
+            let input = e('.input-comment', weiboCell);
+            let content = input.value;
             input.value = "";
             log('click add', content);
-            const form = {
+            let form = {
                 weibo_id: weiboCell.dataset['id'],
                 content: content
             };
@@ -188,11 +199,11 @@ const bindEventCommentAdd = function () {
     })
 };
 
-const bindEventWeiboDelete = function () {
-    const weiboList = e('#id-weibo-list');
+let bindEventWeiboDelete = function () {
+    let weiboList = e('#id-weibo-list');
     weiboList.addEventListener('click', function (event) {
         log(event);
-        const self = event.target;
+        let self = event.target;
         log(self.classList);
         if (self.classList.contains('weibo-delete')) {
             log('点到了删除按钮');
@@ -206,10 +217,10 @@ const bindEventWeiboDelete = function () {
     })
 };
 
-const bindEventCommentDelete = function () {
-    const b = e('#id-weibo-list');
+let bindEventCommentDelete = function () {
+    let b = e('#id-weibo-list');
     b.addEventListener('click', function (btn) {
-        const self = btn.target;
+        let self = btn.target;
         if (self.classList.contains('comment-delete')) {
             log('点到了删除按钮');
             let commnetId = self.parentElement.dataset['id'];
@@ -222,42 +233,42 @@ const bindEventCommentDelete = function () {
     })
 };
 
-const bindEventWeiboEdit = function () {
-    const weiboList = e('#id-weibo-list');
+let bindEventWeiboEdit = function () {
+    let weiboList = e('#id-weibo-list');
     weiboList.addEventListener('click', function (event) {
         // self is the one clicked
-        const self = event.target;
+        let self = event.target;
         log(self.classList);
         if (self.classList.contains('weibo-edit')) {
             log('点到了编辑按钮');
             let weiboCell = self.closest('.weibo-cell');
             let weiboId = weiboCell.dataset['id'];
-            const weiboSpan = e('.weibo-title', weiboCell);
-            const title = weiboSpan.innerText;
+            let weiboSpan = e('.weibo-title', weiboCell);
+            let title = weiboSpan.innerText;
             insertUpdateForm(title, weiboCell)
         }
     })
 };
 
-const bindEventCommentEdit = function () {
-    const b = e('#id-weibo-list');
+let bindEventCommentEdit = function () {
+    let b = e('#id-weibo-list');
     b.addEventListener('click', function (btn) {
-        const self = btn.target;
+        let self = btn.target;
         if (self.classList.contains('comment-edit')) {
             log('点到了编辑按钮');
             let commentCell = self.closest('.comment-cell');
             let commentId = commentCell.dataset['id'];
-            const commentSpan = e('.comment-title', commentCell);
-            const title = commentSpan.innerText;
+            let commentSpan = e('.comment-title', commentCell);
+            let title = commentSpan.innerText;
             insertUpdateCommentForm(title, commentCell)
         }
     })
 };
 
-const bindEventWeiboUpdate = function () {
-    const weiboList = e('#id-weibo-list');
+let bindEventWeiboUpdate = function () {
+    let weiboList = e('#id-weibo-list');
     weiboList.addEventListener('click', function (event) {
-        const self = event.target;
+        let self = event.target;
         log(self.classList);
         if (self.classList.contains('weibo-update')) {
             log('点到了更新按钮');
@@ -266,44 +277,44 @@ const bindEventWeiboUpdate = function () {
             log('update weibo id', weiboId);
             let input = e('.weibo-update-input', weiboCell);
             let title = input.value;
-            const form = {
+            let form = {
                 id: weiboId,
                 content: title,
             };
 
             apiWeiboUpdate(form, function (weibo) {
                 // 收到返回的数据, 插入到页面中
-                const weiboSpan = e('.weibo-title', weiboCell);
+                let weiboSpan = e('.weibo-title', weiboCell);
                 weiboSpan.innerText = weibo.content;
 
-                const updateForm = e('.weibo-update-form', weiboCell);
+                let updateForm = e('.weibo-update-form', weiboCell);
                 updateForm.remove()
             })
         }
     })
 };
 
-const bindEventCommentUpdate = function () {
-    const b = e('#id-weibo-list');
+let bindEventCommentUpdate = function () {
+    let b = e('#id-weibo-list');
     b.addEventListener('click', function (btn) {
-        const self = btn.target;
+        let self = btn.target;
         if (self.classList.contains('comment-update')) {
             log('点到了更新按钮');
             let commentCell = self.closest('.comment-cell');
             let commentId = commentCell.dataset['id'];
             let input = e('.comment-update-input', commentCell);
             let title = input.value;
-            const form = {
+            let form = {
                 id: commentId,
                 content: title,
             };
 
             apiCommentUpdate(form, function (comment) {
                 // 收到返回的数据, 插入到页面中
-                const commentSpan = e('.comment-title', commentCell);
+                let commentSpan = e('.comment-title', commentCell);
                 commentSpan.innerText = comment.content;
 
-                const updateForm = e('.comment-update-form', commentCell);
+                let updateForm = e('.comment-update-form', commentCell);
                 updateForm.remove()
             })
         }
@@ -312,21 +323,21 @@ const bindEventCommentUpdate = function () {
 
 
 // Main Function
-const bindWeiboEvents = function () {
+let bindWeiboEvents = function () {
     bindEventWeiboAdd();
     bindEventWeiboDelete();
     bindEventWeiboEdit();
     bindEventWeiboUpdate()
 };
 
-const bindCommentEvents = function () {
+let bindCommentEvents = function () {
     bindEventCommentAdd();
     bindEventCommentDelete();
     bindEventCommentEdit();
     bindEventCommentUpdate()
 };
 
-const __main = function () {
+let __main = function () {
     bindWeiboEvents();
     bindCommentEvents();
     loadWeibos()
