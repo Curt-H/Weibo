@@ -1,12 +1,9 @@
-﻿//显示所有weibo的API
+﻿//微博部分
+
+//微博API
+//显示所有weibo的API
 let apiWeiboAll = function (callback) {
     let path = '/api/weibo/all';
-    ajax('GET', path, '', callback)
-};
-
-//显示所有评论的API
-let apiCommentAll = function (callback) {
-    let path = '/api/comment/all';
     ajax('GET', path, '', callback)
 };
 
@@ -16,21 +13,9 @@ let apiWeiboAdd = function (form, callback) {
     ajax('POST', path, form, callback)
 };
 
-//发表评论的API
-let apiCommentAdd = function (form, callback) {
-    let path = '/api/comment/add';
-    ajax('POST', path, form, callback)
-};
-
 //删除微博的API
 let apiWeiboDelete = function (weibo_id, callback) {
     let path = `/api/weibo/delete?id=${weibo_id}`;
-    ajax('GET', path, '', callback)
-};
-
-//删除评论的API
-let apiCommentDelete = function (comment_id, callback) {
-    let path = `/api/comment/delete?id=${comment_id}`;
     ajax('GET', path, '', callback)
 };
 
@@ -40,15 +25,8 @@ let apiWeiboUpdate = function (form, callback) {
     ajax('POST', path, form, callback)
 };
 
-//更新评论的API
-let apiCommentUpdate = function (form, callback) {
-    let path = '/api/comment/update';
-    ajax('POST', path, form, callback)
-};
-
-//以下是各种模板
+//微博模板
 let weiboTemplate = function (weibo) {
-//微博的模板
     let t = `
         <div class="weibo-cell pure-form" data-id="${weibo.id}">
             <span class="weibo-user pure-u-3-5">${weibo.writer}发表了微博:</span>
@@ -65,21 +43,7 @@ let weiboTemplate = function (weibo) {
     return t
 };
 
-//评论块的模板
-let commentTemplate = function (comment) {
-    let t = `
-    <div class="comment-cell" data-id="${comment.id}" data-weiboId="${comment.weibo_id}">
-        <span class="comment-user"> [评论] ${comment.writer}:</span>
-        <span class="comment-title">${comment.content}</span>
-        <button class="comment-delete">删除</button>
-        <button class="comment-edit">编辑</button>
-        <div class="comment-cell-end"></div>
-    </div>
-    `;
-    return t
-};
-
-//更新微薄的文本输入框
+//用于更新微博的模板
 let weiboUpdateTemplate = function (title) {
     let t = `
         <div class="weibo-update-form">
@@ -90,18 +54,7 @@ let weiboUpdateTemplate = function (title) {
     return t
 };
 
-//更新评论的输入框
-let commentUpdateTemplate = function (title) {
-    let t = `
-        <div class="comment-update-form">
-            <input class="comment-update-input" value="${title}">
-            <button class="comment-update">更新</button>
-        </div>
-    `;
-    return t
-};
-
-//All Function used to Insert HTML
+//插入每个微博区块
 let insertWeibo = function (weibo) {
     let weiboCell = weiboTemplate(weibo);
     // 插入 weibo-list
@@ -109,41 +62,14 @@ let insertWeibo = function (weibo) {
     weiboList.insertAdjacentHTML('afterbegin', weiboCell)
 };
 
-let insertComment = function (comment) {
-    let commentCell = commentTemplate(comment);
-    let weiboList = document.querySelectorAll(".weibo-cell");
-    for (let i = 0; i < weiboList.length; i++) {
-        if (comment.weibo_id == weiboList[i].dataset["id"]) {
-            log('加载评论', comment.content, '微博ID', comment.weibo_id);
-            let insertPoint = e(".weibo-cell-end", weiboList[i]);
-            insertPoint.insertAdjacentHTML('beforeend', commentCell)
-        }
-    }
-};
-
+//插入更新微博的区块
 let insertUpdateForm = function (title, weiboCell) {
     let updateForm = weiboUpdateTemplate(title);
     let insertPoint = e('.weibo-cell-end', weiboCell);
     insertPoint.insertAdjacentHTML('beforebegin', updateForm)
 };
 
-let insertUpdateCommentForm = function (title, commentCell) {
-    let updateForm = commentUpdateTemplate(title);
-    log(commentCell);
-    let insertPoint = e('.comment-edit', commentCell);
-    insertPoint.insertAdjacentHTML('afterend', updateForm)
-};
-
-let loadComments = function () {
-    apiCommentAll(function (comments) {
-        log('load all comments', comments);
-        for (let i = 0; i < comments.length; i++) {
-            let comment = comments[i];
-            insertComment(comment)
-        }
-    })
-};
-
+//加载所有微博数据
 let loadWeibos = function () {
     apiWeiboAll(function (weibos) {
         log('load all weibos', weibos);
@@ -155,8 +81,7 @@ let loadWeibos = function () {
     })
 };
 
-
-// All Function used to Bind Event
+//实现添加微博的功能
 let bindEventWeiboAdd = function () {
     let b = e('#id-button-add');
     b.addEventListener('click', function () {
@@ -174,28 +99,7 @@ let bindEventWeiboAdd = function () {
     })
 };
 
-let bindEventCommentAdd = function () {
-    let b = e('#id-weibo-list');
-    b.addEventListener('click', function (btn) {
-        self = btn.target;
-        if (self.classList.contains('button-add-comment')) {
-            let weiboCell = self.closest('.weibo-cell');
-            let input = e('.input-comment', weiboCell);
-            let content = input.value;
-            input.value = "";
-            log('click add', content);
-            let form = {
-                weibo_id: weiboCell.dataset['id'],
-                content: content
-            };
-            apiCommentAdd(form, function (comment) {
-                // 收到返回的数据, 插入到页面中
-                insertComment(comment)
-            })
-        }
-    })
-};
-
+//实现删除微博的功能
 let bindEventWeiboDelete = function () {
     let weiboList = e('#id-weibo-list');
     // 事件委托
@@ -215,22 +119,7 @@ let bindEventWeiboDelete = function () {
     })
 };
 
-let bindEventCommentDelete = function () {
-    let b = e('#id-weibo-list');
-    b.addEventListener('click', function (btn) {
-        let self = btn.target;
-        if (self.classList.contains('comment-delete')) {
-            log('点到了删除按钮');
-            let commnetId = self.parentElement.dataset['id'];
-            apiCommentDelete(commnetId, function (r) {
-                log('apiWeiboDelete', r.message);
-                self.parentElement.remove();
-                alert(r.message)
-            })
-        }
-    })
-};
-
+//实现编辑微博的功能
 let bindEventWeiboEdit = function () {
     let weiboList = e('#id-weibo-list');
     weiboList.addEventListener('click', function (event) {
@@ -248,21 +137,7 @@ let bindEventWeiboEdit = function () {
     })
 };
 
-let bindEventCommentEdit = function () {
-    let b = e('#id-weibo-list');
-    b.addEventListener('click', function (btn) {
-        let self = btn.target;
-        if (self.classList.contains('comment-edit')) {
-            log('点到了编辑按钮');
-            let commentCell = self.closest('.comment-cell');
-            let commentId = commentCell.dataset['id'];
-            let commentSpan = e('.comment-title', commentCell);
-            let title = commentSpan.innerText;
-            insertUpdateCommentForm(title, commentCell)
-        }
-    })
-};
-
+//实现更新微博的功能
 let bindEventWeiboUpdate = function () {
     let weiboList = e('#id-weibo-list');
     weiboList.addEventListener('click', function (event) {
@@ -292,6 +167,146 @@ let bindEventWeiboUpdate = function () {
     })
 };
 
+
+//评论部分
+//显示所有评论的API
+let apiCommentAll = function (callback) {
+    let path = '/api/comment/all';
+    ajax('GET', path, '', callback)
+};
+
+//发表评论的API
+let apiCommentAdd = function (form, callback) {
+    let path = '/api/comment/add';
+    ajax('POST', path, form, callback)
+};
+
+//删除评论的API
+let apiCommentDelete = function (comment_id, callback) {
+    let path = `/api/comment/delete?id=${comment_id}`;
+    ajax('GET', path, '', callback)
+};
+
+//更新评论的API
+let apiCommentUpdate = function (form, callback) {
+    let path = '/api/comment/update';
+    ajax('POST', path, form, callback)
+};
+
+//评论块的模板
+let commentTemplate = function (comment) {
+    let t = `
+    <div class="comment-cell" data-id="${comment.id}" data-weiboId="${comment.weibo_id}">
+        <span class="comment-user"> [评论] ${comment.writer}:</span>
+        <span class="comment-title">${comment.content}</span>
+        <button class="comment-delete">删除</button>
+        <button class="comment-edit">编辑</button>
+        <div class="comment-cell-end"></div>
+    </div>
+    `;
+    return t
+};
+
+//更新评论的输入框
+let commentUpdateTemplate = function (title) {
+    let t = `
+        <div class="comment-update-form">
+            <input class="comment-update-input" value="${title}">
+            <button class="comment-update">更新</button>
+        </div>
+    `;
+    return t
+};
+
+//插入评论块
+let insertComment = function (comment) {
+    let commentCell = commentTemplate(comment);
+    let weiboList = document.querySelectorAll(".weibo-cell");
+    for (let i = 0; i < weiboList.length; i++) {
+        if (comment.weibo_id == weiboList[i].dataset["id"]) {
+            log('加载评论', comment.content, '微博ID', comment.weibo_id);
+            let insertPoint = e(".weibo-cell-end", weiboList[i]);
+            insertPoint.insertAdjacentHTML('beforeend', commentCell)
+        }
+    }
+};
+
+//插入更新评论块
+let insertUpdateCommentForm = function (title, commentCell) {
+    let updateForm = commentUpdateTemplate(title);
+    log(commentCell);
+    let insertPoint = e('.comment-edit', commentCell);
+    insertPoint.insertAdjacentHTML('afterend', updateForm)
+};
+
+//加载评论
+let loadComments = function () {
+    apiCommentAll(function (comments) {
+        log('load all comments', comments);
+        for (let i = 0; i < comments.length; i++) {
+            let comment = comments[i];
+            insertComment(comment)
+        }
+    })
+};
+
+//实现添加评论
+let bindEventCommentAdd = function () {
+    let b = e('#id-weibo-list');
+    b.addEventListener('click', function (btn) {
+        self = btn.target;
+        if (self.classList.contains('button-add-comment')) {
+            let weiboCell = self.closest('.weibo-cell');
+            let input = e('.input-comment', weiboCell);
+            let content = input.value;
+            input.value = "";
+            log('click add', content);
+            let form = {
+                weibo_id: weiboCell.dataset['id'],
+                content: content
+            };
+            apiCommentAdd(form, function (comment) {
+                // 收到返回的数据, 插入到页面中
+                insertComment(comment)
+            })
+        }
+    })
+};
+
+//实现删除评论
+let bindEventCommentDelete = function () {
+    let b = e('#id-weibo-list');
+    b.addEventListener('click', function (btn) {
+        let self = btn.target;
+        if (self.classList.contains('comment-delete')) {
+            log('点到了删除按钮');
+            let commnetId = self.parentElement.dataset['id'];
+            apiCommentDelete(commnetId, function (r) {
+                log('apiWeiboDelete', r.message);
+                self.parentElement.remove();
+                alert(r.message)
+            })
+        }
+    })
+};
+
+//实现编辑功能
+let bindEventCommentEdit = function () {
+    let b = e('#id-weibo-list');
+    b.addEventListener('click', function (btn) {
+        let self = btn.target;
+        if (self.classList.contains('comment-edit')) {
+            log('点到了编辑按钮');
+            let commentCell = self.closest('.comment-cell');
+            let commentId = commentCell.dataset['id'];
+            let commentSpan = e('.comment-title', commentCell);
+            let title = commentSpan.innerText;
+            insertUpdateCommentForm(title, commentCell)
+        }
+    })
+};
+
+//实现更新评论
 let bindEventCommentUpdate = function () {
     let b = e('#id-weibo-list');
     b.addEventListener('click', function (btn) {
