@@ -3,6 +3,7 @@ import time
 from models.base_model import SQLModel
 
 from models.user import User
+from utils import log
 
 
 class Comment(SQLModel):
@@ -21,3 +22,12 @@ class Comment(SQLModel):
 
     def get_writer(self):
         return User.one(id=self.user_id).username
+
+    @classmethod
+    def update_comment(cls, form):
+        comment_id = form['id']
+        form.pop('id')
+        log(f'Update comment {comment_id}: {form}')
+
+        cls.update(comment_id, **form)
+        return cls.one(id=comment_id)

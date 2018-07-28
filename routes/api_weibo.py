@@ -108,7 +108,6 @@ def comment_add():
 
 @api_weibo.route('/api/comment/delete', methods=['GET'])
 def comment_delete():
-
     comment_id = int(request.args['id'])
     Comment.delete(comment_id)
     d = dict(
@@ -119,8 +118,9 @@ def comment_delete():
 
 @api_weibo.route('/api/comment/update', methods=['POST'])
 def comment_update():
+    form = request.get_json()
+    form['update_time'] = int(time.time())
 
-    form = request.json()
     log('api comment update form', form)
-    t = Comment.update(form)
+    t = Comment.update_comment(form)
     return jsonify(t.json())
