@@ -1,7 +1,7 @@
 import time
 
 from models.comment import Comment
-from routes import current_user, weibo_owner_required, comment_owner_required
+from routes import current_user
 from utils import log
 from models.weibo import Weibo
 from flask import (
@@ -73,10 +73,6 @@ def weibo_update():
     """
     用于增加新 weibo 的路由函数
     """
-    valid = weibo_owner_required()
-    if valid is not None:
-        return valid
-
     form = request.get_json()
     form['update_time'] = int(time.time())
     log('api weibo update form', form)
@@ -112,9 +108,6 @@ def comment_add():
 
 @api_weibo.route('/api/comment/delete', methods=['GET'])
 def comment_delete():
-    valid = comment_owner_required()
-    if valid is not None:
-        return valid
 
     comment_id = int(request.args['id'])
     Comment.delete(comment_id)
@@ -126,9 +119,6 @@ def comment_delete():
 
 @api_weibo.route('/api/comment/update', methods=['POST'])
 def comment_update():
-    valid = comment_owner_required()
-    if valid is not None:
-        return valid
 
     form = request.json()
     log('api comment update form', form)
