@@ -38,5 +38,5 @@ def log(*args, **kwargs):
         # 将log的内容写到文件里, 与之前的print分开是为了避免写文件太慢影响print
         print(f'{formatted}', file=f)
         print(*args, **kwargs, file=f)
-        print('=' * 50)
-        print()
+        print('=' * 50, file=f)
+        print('', file=f)
