@@ -1,6 +1,21 @@
 import time
 
 
+def reformat_time(original_time):
+    """
+    将计算机时间转化为特定格式
+    :param original_time: 计算机时间,整形,秒数
+    :return: 特定格式的时间字串
+    """
+    # 转换后的时间格式
+    time_format = '%Y年%m月%d日%H:%M:%S'
+
+    localtime = time.localtime(original_time)
+    formatted = time.strftime(time_format, localtime)
+
+    return formatted
+
+
 def log(*args, **kwargs):
     """
     日志打印函数, 输入任意数据, 将其按特定格式打印出来并保存的根目录的log文件中
@@ -17,9 +32,11 @@ def log(*args, **kwargs):
         # 时间和log内容分开, 并且加上分隔符号
         print(f'{formatted}')
         print(*args, **kwargs)
-        print('***************')
+        print('=' * 50)
+        print()
 
         # 将log的内容写到文件里, 与之前的print分开是为了避免写文件太慢影响print
         print(f'{formatted}', file=f)
         print(*args, **kwargs, file=f)
-        print('***************', file=f)
+        print('=' * 50)
+        print()
