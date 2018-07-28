@@ -41,3 +41,16 @@ def authorize_deny():
     )
 
     return jsonify(d)
+
+
+def login_required():
+    """
+    用于验证是否为登陆状态, 不是的话就返回到登陆页面
+    """
+    log('login_required')
+    u = current_user()
+
+    # 如果当前用户是游客就重定向
+    if u.is_guest():
+        log('游客用户')
+        return redirect(url_for('user_route.login_view'))
