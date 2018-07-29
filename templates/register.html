@@ -1,32 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}微博主页{% endblock title %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>注册页面</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index.css") }}">
+{% block css %}
 
-</head>
+{% endblock css %}
 
-<body>
-    <nav>
-        <a class="nav-link" href="/">Homepage</a>
-        <a class="nav-link" href="/user/register/view">Register</a>
-        <a class="nav-link" href="/user/login/view">Login</a>
-        <a class="nav-link" href="/todo/index">Todo</a>
-        <a class="nav-link" href="/weibo/index">Weibo</a>
-    </nav>
+{% block content %}
     <h1>注册</h1>
     <form action="/user/register" method="post">
-    <div class="input-area">
-        <input type="text" name="username" placeholder="请输入用户名">
-        <br>
-        <input type="text" name="password" placeholder="请输入密码">
-        <br>
-    </div>
+        <div class="input-area">
+            <input type="text" name="username" placeholder="请输入用户名">
+            <br>
+            <input type="text" name="password" placeholder="请输入密码">
+            <br>
+        </div>
         <button type="submit">注册</button>
     </form>
-    <h3>{{result}}</h3>
-</body>
-
-</html>
+    <h3>{{ result }}</h3>
+{% endblock content %}
