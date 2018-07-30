@@ -1,16 +1,15 @@
 import time
 
 
-def reformat_time(original_time):
+def record_time():
     """
     将计算机时间转化为特定格式
-    :param original_time: 计算机时间,整形,秒数
     :return: 特定格式的时间字串
     """
     # 转换后的时间格式
     time_format = '%Y年%m月%d日%H:%M:%S'
 
-    localtime = time.localtime(original_time)
+    localtime = time.localtime(int(time.time()))
     formatted = time.strftime(time_format, localtime)
 
     return formatted
