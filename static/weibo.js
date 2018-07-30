@@ -87,15 +87,22 @@ let bindEventWeiboAdd = function () {
     b.addEventListener('click', function () {
         let input = e('#id-input-weibo');
         let title = input.value;
-        input.value = "";
-        log('click add', title);
-        let form = {
-            content: title
-        };
-        apiWeiboAdd(form, function (weibo) {
-            // 收到返回的数据, 插入到页面中
-            insertWeibo(weibo)
-        })
+        log('You input the weibo', title);
+
+        // 判断一下内容是否为空
+        if (title.length == 0) {
+            alert("微博内容不能为空");
+        } else {
+            input.value = "";
+            let form = {
+                content: title
+            };
+            apiWeiboAdd(form, function (weibo) {
+                // 收到返回的数据, 插入到页面中
+                insertWeibo(weibo)
+            })
+        }
+
     })
 };
 
