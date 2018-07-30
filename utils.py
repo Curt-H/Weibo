@@ -7,7 +7,7 @@ def record_time():
     :return: 特定格式的时间字串
     """
     # 转换后的时间格式
-    time_format = '%Y年%m月%d日%H:%M:%S'
+    time_format = '%Y/%m/%d/ %H:%M:%S'
 
     localtime = time.localtime(int(time.time()))
     formatted = time.strftime(time_format, localtime)
