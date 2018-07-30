@@ -36,8 +36,8 @@ def creat_weibo():
           '`content` TEXT NOT NULL,' \
           '`user_id` INT NOT NULL,' \
           '`writer` VARCHAR(32) NOT NULL,' \
-          '`update_time` INT NOT NULL,' \
-          '`create_time` INT NOT NULL,' \
+          '`update_time` VARCHAR(32) NOT NULL,' \
+          '`create_time` VARCHAR(32) NOT NULL,' \
           'PRIMARY KEY (`id`)' \
           ');'
     return cmd
@@ -50,8 +50,8 @@ def creat_comment():
           '`user_id` INT NOT NULL,' \
           '`weibo_id` INT NOT NULL,' \
           '`writer` VARCHAR(32) NOT NULL,' \
-          '`update_time` INT NOT NULL,' \
-          '`create_time` INT NOT NULL,' \
+          '`update_time` VARCHAR(32) NOT NULL,' \
+          '`create_time` VARCHAR(32) NOT NULL,' \
           'PRIMARY KEY (`id`)' \
           ');'
     return cmd
