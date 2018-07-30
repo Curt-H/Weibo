@@ -47,8 +47,8 @@ let weiboTemplate = function (weibo) {
 let weiboUpdateTemplate = function (title) {
     let t = `
         <div class="weibo-update-form">
-            <input class="input-style weibo-update-input" value="${title}">
-            <button class="weibo-update">更新</button>
+            <input class="input-style weibo-update-input pure-u-1-2" value="${title}">
+            <button class="weibo-update pure-button">更新</button>
         </div>
     `;
     return t
@@ -136,10 +136,13 @@ let bindEventWeiboEdit = function () {
         if (self.classList.contains('weibo-edit')) {
             log('点到了编辑按钮');
             let weiboCell = self.closest('.weibo-cell');
-            let weiboId = weiboCell.dataset['id'];
-            let weiboSpan = e('.weibo-title', weiboCell);
-            let title = weiboSpan.innerText;
-            insertUpdateForm(title, weiboCell)
+            if (e('.weibo-update-form', weiboCell) == null) {
+                let weiboId = weiboCell.dataset['id'];
+                let weiboSpan = e('.weibo-content', weiboCell);
+                let title = weiboSpan.innerText;
+                insertUpdateForm(title, weiboCell)
+            }
+
         }
     })
 };
@@ -164,7 +167,7 @@ let bindEventWeiboUpdate = function () {
 
             apiWeiboUpdate(form, function (weibo) {
                 // 收到返回的数据, 插入到页面中
-                let weiboSpan = e('.weibo-title', weiboCell);
+                let weiboSpan = e('.weibo-content', weiboCell);
                 weiboSpan.innerText = weibo.content;
 
                 let updateForm = e('.weibo-update-form', weiboCell);

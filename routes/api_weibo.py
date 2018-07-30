@@ -47,10 +47,10 @@ def weibo_delete():
     weibo_id = request.args['id']
     log(f'{weibo_id} -- {type(weibo_id)}')
     # 验证数据是否是数字
-    valid = weibo_id.split()
-    for i in valid:
-        if i not in numbers:
-            log(f'获取数据错误, 获取到非数字<{weibo_id}>')
+    valid = weibo_id
+    for i in range(len(valid)):
+        if valid[i] not in numbers:
+            log(f'获取数据错误, 获取到非数字<{valid[i]}>, <{i}> of <{weibo_id}>')
             r = dict(
                 message='DataError'
             )
