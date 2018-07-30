@@ -1,8 +1,6 @@
-import time
-
 from models.comment import Comment
 from routes import current_user
-from utils import log
+from utils import log, record_time
 from models.weibo import Weibo
 from flask import (
     Blueprint,
@@ -33,7 +31,7 @@ def weibo_add():
     u = current_user()
     form['user_id'] = u.id
     form['writer'] = u.username
-    form['create_time'] = time.time()
+    form['create_time'] = record_time()
     form['update_time'] = form['create_time']
     t = Weibo.new(form)
     # 把创建好的 weibo 返回给浏览器
@@ -74,7 +72,7 @@ def weibo_update():
     用于增加新 weibo 的路由函数
     """
     form = request.get_json()
-    form['update_time'] = int(time.time())
+    form['update_time'] = record_time()
     log('api weibo update form', form)
     t = Weibo.update_database(form)
     return jsonify(t.json())
@@ -98,7 +96,7 @@ def comment_add():
     u = current_user()
     form['user_id'] = u.id
     form['writer'] = u.username
-    form['create_time'] = int(time.time())
+    form['create_time'] = record_time()
     form['update_time'] = form['create_time']
 
     t = Comment.new(form)
@@ -119,7 +117,7 @@ def comment_delete():
 @api_weibo.route('/api/comment/update', methods=['POST'])
 def comment_update():
     form = request.get_json()
-    form['update_time'] = int(time.time())
+    form['update_time'] = record_time()
 
     log('api comment update form', form)
     t = Comment.update_comment(form)

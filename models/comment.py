@@ -1,9 +1,7 @@
-import time
-
 from models.base_model import SQLModel
 
 from models.user import User
-from utils import log
+from utils import log, record_time
 
 
 class Comment(SQLModel):
@@ -17,8 +15,8 @@ class Comment(SQLModel):
         self.user_id = form.get('user_id', user_id)
         self.weibo_id = int(form.get('weibo_id', -1))
         self.writer = self.get_writer()
-        self.update_time = form.get('update_time', int(time.time()))
-        self.create_time = form.get('create_time', int(time.time()))
+        self.update_time = form.get('update_time', record_time())
+        self.create_time = form.get('create_time', record_time())
 
     def get_writer(self):
         return User.one(id=self.user_id).username
