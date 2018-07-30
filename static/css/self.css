@@ -13,6 +13,7 @@ h1 {
 }
 
 .navbar {
+    padding: 5px;
     text-align: right;
     background: #888;
 }
@@ -27,27 +28,44 @@ button.link-style:hover {
     color: #ff0;
 }
 
-#id-input-weibo {
-}
-
-.input-comment {
-}
-
 .weibo-user {
     display: inline-block;
     text-align: left;
     font-weight: 800;
 }
 
-.weibo-title {
+.weibo-content {
     display: block;
     border: 1px solid #444444;
+    padding: 1em;
 }
 
 .weibo-cell {
+    margin: 2em;
+    padding: 1em;
     border: 2px solid #222222;
 }
 
 .btn-small {
     font-size: 50%;
+}
+
+.input-style {
+    margin: 5px 0;
+}
+
+.comment-cell {
+    margin: 1em;
+}
+
+.login-style {
+    text-align: center;
+}
+
+input.login-input {
+    margin: 0.25em auto!important;
+}
+
+.login-form {
+    text-align: center;
 }

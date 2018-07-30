@@ -34,9 +34,9 @@ let weiboTemplate = function (weibo) {
                 <button class="weibo-delete link-style pure-button pure-u-1-8">删除</button>
                 <button class="weibo-edit link-style pure-button pure-u-1-8">编辑</button>
             </span>
-            <span class="weibo-title">${weibo.content}</span>
+            <p class="weibo-content">${weibo.content}</p>
             <div class="weibo-cell-end"></div>
-            <input class='input-comment pure-u-3-5'>
+            <input class='input-style input-comment pure-u-3-5'>
             <button class="button-add-comment link-style pure-button pure-u-1-5">添加评论</button>
         </div>
     `;
@@ -47,7 +47,7 @@ let weiboTemplate = function (weibo) {
 let weiboUpdateTemplate = function (title) {
     let t = `
         <div class="weibo-update-form">
-            <input class="weibo-update-input" value="${title}">
+            <input class="input-style weibo-update-input" value="${title}">
             <button class="weibo-update">更新</button>
         </div>
     `;

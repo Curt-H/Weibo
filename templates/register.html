@@ -7,14 +7,12 @@
 
 {% block content %}
     <h1>注册</h1>
-    <form action="/user/register" method="post">
+    <form class="login-form pure-form pure-form-stacked" action="/user/register" method="post">
         <div class="input-area">
-            <input type="text" name="username" placeholder="请输入用户名">
-            <br>
-            <input type="text" name="password" placeholder="请输入密码">
-            <br>
+            <input type="text" name="username" class="login-input" placeholder="请输入用户名">
+            <input type="text" name="password" class="login-input" placeholder="请输入密码">
         </div>
-        <button type="submit">注册</button>
+        <button class="pure-button pure-button-primary" type="submit">注册</button>
     </form>
     <h3>{{ result }}</h3>
 {% endblock content %}
