@@ -1,0 +1,12 @@
+.chat-msg {
+    resize: none;
+    color: black!important;
+}
+
+.msg {
+    text-align: center;
+}
+
+#id_input_text {
+    margin: 2em auto;
+}

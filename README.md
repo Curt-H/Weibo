@@ -7,3 +7,5 @@
 ![register](register.gif)
 微博与评论的增删改查
 ![main function](main.gif)
+聊天室
+![chat](chat.gif)

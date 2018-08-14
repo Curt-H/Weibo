@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}在线聊天室{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="/static/css/chat.css">
+{% endblock %}
+
+{% block content %}
+    <h1 class="chat-title">聊天室</h1>
+    <div class="pure-form msg">
+        <textarea class="chat-msg" id="id_chat_area" cols="80" rows="16" disabled></textarea>
+    </div>
+    <div class="pure-form msg">
+        <input id="id_input_text" size="80" placeholder="输入聊天消息">
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+    <script src="/static/chat.js"></script>
+    <script></script>
+{% endblock %}

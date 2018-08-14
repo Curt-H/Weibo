@@ -6,6 +6,8 @@ from routes.routes_public import public_route as public
 from routes.routes_weibo import weibo_route as weibo
 from routes.api_weibo import api_weibo
 from routes.routes_user import user_route
+from routes.chat import chats
+from events import socketio
 
 
 def configured_app():
@@ -20,6 +22,8 @@ def configured_app():
     server.register_blueprint(weibo)
     server.register_blueprint(api_weibo)
     server.register_blueprint(user_route)
+    server.register_blueprint(chats)
+    socketio.init_app(server)
 
     return server
 
@@ -36,4 +40,4 @@ if __name__ == '__main__':
         port=80,
     )
 
-    app.run(**config)
+    socketio.run(app, **config)
